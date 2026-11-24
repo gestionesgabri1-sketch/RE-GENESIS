@@ -1,0 +1,792 @@
+/* =========================
+   FORMS
+========================= */
+
+.creator {
+    margin-top: 18px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 100px auto;
+    gap: 8px;
+}
+
+input,
+select {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--bg-soft);
+    color: var(--text);
+    border-radius: 11px;
+    padding: 11px 12px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--border-strong);
+}
+
+.primary-button {
+    border: 1px solid var(--text);
+    background: var(--text);
+    color: var(--bg);
+    border-radius: 11px;
+    padding: 11px 15px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.primary-button:hover {
+    opacity: 0.85;
+}
+/* =========================
+   SKILL TREE
+========================= */
+
+.skill-tree-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.skill-tree-title {
+    font-family: "MedievalSharp", cursive;
+    font-size: 25px;
+}
+
+.skill-points {
+    margin-left: auto;
+    color: var(--yellow);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.skill-tree {
+    position: relative;
+    width: min(620px, 100%);
+    height: 500px;
+    margin: 20px auto 0;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at center, var(--sheen), transparent 55%),
+        var(--card);
+    overflow: hidden;
+}
+
+.skill-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.skill-line {
+    stroke: var(--line);
+    stroke-width: 2;
+}
+
+.skill-node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    min-height: 72px;
+    border: 1px solid var(--border);
+    background: var(--bg-soft);
+    border-radius: 16px;
+    padding: 9px 6px;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.skill-node.unlocked {
+    border-color: var(--text);
+    background: var(--node-unlocked);
+}
+
+.skill-node.available {
+    cursor: pointer;
+}
+
+.skill-node.available:hover {
+    background: var(--card-hover);
+    transform: translate(-50%, -50%) scale(1.04);
+}
+
+.skill-node.locked {
+    opacity: 0.42;
+}
+
+.skill-icon {
+    font-size: 16px;
+}
+
+.skill-name {
+    margin-top: 5px;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.skill-cost {
+    color: var(--muted);
+    font-size: 8px;
+    margin-top: 3px;
+}
+
+
+/* =========================
+   CARRUSEL DE ÁRBOLES DE HABILIDAD
+   5 paneles horizontales: Cuerpo, Mente, Origen (raza), Alma, Unión.
+========================= */
+
+.skill-carousel-wrap {
+    position: relative;
+    margin: 0 -20px;
+}
+
+.skill-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.skill-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.skill-banner {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    padding: 6px 20px 10px;
+    opacity: 0.4;
+    transition: opacity 0.35s ease;
+}
+
+.skill-banner.active {
+    opacity: 1;
+}
+
+.skill-banner-header {
+    position: relative;
+    text-align: center;
+    padding: 22px 10px 18px;
+}
+
+.skill-banner-icon {
+    font-size: 32px;
+    line-height: 1;
+    filter: drop-shadow(0 0 14px var(--banner-glow, transparent));
+}
+
+.skill-banner-name {
+    margin-top: 10px;
+    font-family: "Cinzel", serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--banner-color, var(--text));
+}
+
+.skill-banner-sub {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.skill-banner-rule {
+    width: 120px;
+    height: 1px;
+    margin: 14px auto 0;
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--banner-color, var(--border-strong)),
+        transparent
+    );
+    opacity: 0.6;
+}
+
+.skill-banner-points {
+    text-align: center;
+    margin-bottom: 6px;
+    color: var(--yellow);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.skill-points-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 6px;
+    padding: 0 8px;
+}
+
+.skill-points-chip {
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--banner-color, var(--text));
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.skill-stat-block {
+    margin-bottom: 30px;
+}
+
+.skill-stat-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.skill-stat-name {
+    font-family: "Cinzel", serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--banner-color, var(--text));
+}
+
+.skill-stat-meta {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.mini-skill-tree {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: 190px;
+    margin: 0 auto;
+}
+
+.origin-skill-tree {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    height: 1120px;
+    margin: 8px auto 40px;
+}
+
+.skill-tree-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.skill-tree-svg line {
+    stroke: var(--line);
+    stroke-width: 1.5;
+    /* el SVG se estira a la altura del árbol: sin esto el trazo engordaría */
+    vector-effect: non-scaling-stroke;
+}
+
+.skill-tree-svg line.active {
+    stroke: var(--banner-color, var(--text));
+    opacity: 0.85;
+}
+
+.skill-orb {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-strong);
+    background: var(--node-unlocked);
+    transition: 0.2s;
+}
+
+.mini-skill-tree .skill-orb {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+}
+
+.origin-skill-tree .skill-orb {
+    width: 54px;
+    height: 54px;
+    font-size: 20px;
+}
+
+.skill-orb.unlocked {
+    border-color: var(--banner-color, var(--text));
+    box-shadow: 0 0 12px var(--banner-glow, transparent);
+}
+
+.skill-orb.available {
+    cursor: pointer;
+    border-color: var(--banner-color, var(--border-strong));
+}
+
+.skill-orb.available:hover {
+    transform: translate(-50%, -50%) scale(1.12);
+    background: var(--card-hover);
+}
+
+.skill-orb.locked {
+    opacity: 0.45;
+}
+
+.skill-orb.available.unaffordable {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.skill-orb-cost {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.origin-skill-tree .skill-orb-label {
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: var(--bg);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 4px;
+    width: 92px;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--muted);
+    pointer-events: none;
+}
+
+.skill-orb.unlocked .origin-skill-tree .skill-orb-label,
+.origin-skill-tree .skill-orb.unlocked .skill-orb-label {
+    color: var(--text);
+}
+
+.skill-carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 4px;
+}
+
+.skill-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-strong);
+    border: none;
+    padding: 0;
+}
+
+.skill-dot.active {
+    background: var(--text);
+    transform: scale(1.3);
+}
+
+.skill-carousel-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: var(--card);
+    color: var(--text);
+    font-size: 16px;
+    transform: translateY(-50%);
+}
+
+.skill-carousel-arrow:hover {
+    background: var(--card-hover);
+}
+
+.skill-banner-sub.evolved {
+    color: var(--banner-color, var(--text));
+}
+
+.evolution-box {
+    text-align: center;
+    padding: 30px 24px 24px;
+    animation: evolutionIn 0.5s ease;
+}
+
+.evolution-icon {
+    font-size: 56px;
+    line-height: 1;
+}
+
+.evolution-kicker {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.evolution-name {
+    margin-top: 8px;
+    font-family: "Cinzel", serif;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.evolution-from {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.evolution-ok {
+    margin-top: 22px;
+    padding: 12px 28px;
+    font-size: 12px;
+}
+
+.ascension-box {
+    border-color: #caa2ff;
+}
+
+.ascension-box .evolution-kicker {
+    color: #caa2ff;
+}
+
+.ascension-box .evolution-icon {
+    filter: drop-shadow(0 0 16px rgba(202, 162, 255, 0.55));
+}
+
+/* =========================
+   MISIÓN DE ASCENSIÓN
+========================= */
+
+.ascension-card {
+    margin-bottom: 14px;
+    padding: 16px;
+    border: 1px solid #caa2ff;
+    border-radius: var(--radius);
+    background:
+        linear-gradient(135deg, rgba(202, 162, 255, 0.1), transparent 60%),
+        var(--card);
+    box-shadow: 0 0 22px rgba(202, 162, 255, 0.18);
+}
+
+.ascension-kicker {
+    margin-bottom: 10px;
+    color: #caa2ff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.ascension-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.ascension-card-icon {
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border-radius: 50%;
+    background: var(--card-hover);
+    border: 1px solid #caa2ff;
+}
+
+.ascension-text {
+    min-width: 0;
+}
+
+.ascension-card-title {
+    font-family: "Cinzel", serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.ascension-card-flavor {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.ascension-warning {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.ascension-button {
+    width: 100%;
+    margin-top: 12px;
+    background: #caa2ff;
+    border-color: #caa2ff;
+    color: #1a0f2e;
+}
+
+.ascension-button:hover {
+    opacity: 0.9;
+}
+
+@keyframes evolutionIn {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .evolution-box {
+        animation: none;
+    }
+}
+
+.skill-carousel-arrow.prev {
+    left: 4px;
+}
+
+.skill-carousel-arrow.next {
+    right: 4px;
+}
+
+@media (max-width: 640px) {
+    .skill-carousel-arrow {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skill-carousel {
+        scroll-behavior: auto;
+    }
+    .skill-banner {
+        transition: none;
+    }
+}
+/* =========================
+   RANKS
+========================= */
+
+.rank-badge {
+    display: inline-block;
+    min-width: 18px;
+    text-align: center;
+    padding: 0 6px;
+    border-radius: 6px;
+    border: 1px solid currentColor;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 17px;
+}
+
+.rank-S { color: #f5b301; }
+.rank-A { color: #a970ff; }
+.rank-B { color: #3b9cff; }
+.rank-C { color: #2fbf71; }
+.rank-D { color: #8c8c93; }
+
+.form-grid.rank-form {
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.form-grid.rank-form > .f-name    { grid-column: span 7; }
+.form-grid.rank-form > .f-stat    { grid-column: span 5; }
+.form-grid.rank-form > .f-kind    { grid-column: span 4; }
+.form-grid.rank-form > .f-minutes { grid-column: span 4; }
+.form-grid.rank-form > .f-effort  { grid-column: span 4; }
+.form-grid.rank-form > .f-target  { grid-column: span 6; }
+.form-grid.rank-form > .f-unit    { grid-column: span 6; }
+.form-grid.rank-form > .f-freq    { grid-column: span 5; }
+.form-grid.rank-form > .f-add     { grid-column: span 12; }
+
+.progress-input {
+    width: 72px;
+    padding: 8px 8px;
+    font-size: 12px;
+}
+
+.plus-button {
+    border: 1px solid var(--border);
+    background: var(--bg-soft);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 8px 11px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.rank-preview {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 11px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: 720px) {
+    .form-grid.rank-form {
+        grid-template-columns: 1fr 1fr;
+    }
+    .form-grid.rank-form > * {
+        grid-column: span 2 !important;
+    }
+    .form-grid.rank-form > .f-minutes,
+    .form-grid.rank-form > .f-effort,
+    .form-grid.rank-form > .f-target,
+    .form-grid.rank-form > .f-unit {
+        grid-column: span 1 !important;
+    }
+}
+/* =========================
+   DIÁLOGO DE CONFIRMACIÓN
+========================= */
+
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.confirm-box {
+    width: min(380px, 100%);
+    box-shadow: 0 20px 60px var(--shadow);
+}
+
+.confirm-text {
+    margin: 0 0 18px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.confirm-danger {
+    border: 1px solid var(--red-soft-border);
+    background: var(--red-soft-bg);
+    color: var(--red);
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.confirm-danger:hover {
+    background: var(--red-soft-bg-hover);
+}
+
+.confirm-danger:focus-visible,
+.confirm-actions .small-button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* =========================
+   CRONÓMETRO DE MISIONES
+========================= */
+
+.mission-meta {
+    flex-wrap: wrap;
+}
+
+.mission-timer {
+    margin-top: 12px;
+    width: min(280px, 100%);
+}
+
+.mission-timer-time {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.mission-timer-track {
+    margin-top: 9px;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--track);
+    overflow: hidden;
+}
+
+.mission-count-bar {
+    margin-top: 12px;
+    width: min(280px, 100%);
+}
+
+.mission-count-bar .mission-timer-track {
+    margin-top: 0;
+}
+
+.mission-count-bar .mission-timer-fill {
+    transition: width 0.2s ease;
+}
+
+.mission-timer-fill {
+    width: 0;
+    height: 100%;
+    border-radius: 4px;
+    background: var(--accent);
+    transition: width 1s linear;
+}
+
+.mission-timer.paused .mission-timer-time {
+    color: var(--muted);
+}
+
+.mission-timer.paused .mission-timer-fill {
+    background: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mission-timer-fill {
+        transition: none;
+    }
+}

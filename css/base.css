@@ -1,0 +1,205 @@
+:root {
+    --bg: #080808;
+    --bg-soft: #0f0f10;
+    --card: #141415;
+    --card-hover: #19191b;
+    --border: #27272a;
+    --text: #f5f5f5;
+    --muted: #8c8c93;
+    --accent: #ffffff;
+    --accent-soft: #dcdce0;
+    --green: #8cffb0;
+    --red: #ff6b6b;
+    --yellow: #ffd86b;
+    --radius: 18px;
+
+    /* tokens dependientes del tema */
+    color-scheme: dark;
+    --topbar-bg: rgba(8, 8, 8, 0.96);
+    --border-strong: #3a3a3e;
+    --track: #29292c;
+    --line: #36363a;
+    --node-unlocked: #1c1c1e;
+    --sheen: rgba(255, 255, 255, 0.025);
+    --shadow: rgba(0, 0, 0, 0.45);
+    --green-soft-bg: rgba(140, 255, 176, 0.08);
+    --green-soft-border: rgba(140, 255, 176, 0.25);
+    --red-soft-bg: rgba(255, 107, 107, 0.08);
+    --red-soft-bg-hover: rgba(255, 107, 107, 0.14);
+    --red-soft-border: rgba(255, 107, 107, 0.35);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", sans-serif;
+    min-height: 100vh;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+/* =========================
+   MAIN
+========================= */
+
+main {
+    width: min(1100px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 70px;
+}
+
+.view {
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-title {
+    font-family: "MedievalSharp", cursive;
+    font-size: 28px;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.page-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+}
+/* =========================
+   EMPTY STATE
+========================= */
+
+
+.empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 45px 20px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+}
+
+.empty-state-title {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.empty-state-text {
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+/* =========================
+   THEMES
+========================= */
+
+body.theme-white {
+    color-scheme: light;
+    --bg: #f4f4f5;
+    --bg-soft: #ffffff;
+    --card: #ffffff;
+    --card-hover: #ededef;
+    --border: #dcdce0;
+    --text: #111111;
+    --muted: #64646b;
+    --accent: #111111;
+    --accent-soft: #333333;
+
+    /* acentos legibles sobre fondo claro */
+    --green: #17803d;
+    --red: #c62828;
+    --yellow: #8a6100;
+
+    --topbar-bg: rgba(244, 244, 245, 0.96);
+    --border-strong: #a9a9b0;
+    --track: #dcdce0;
+    --line: #c4c4ca;
+    --node-unlocked: #ebebee;
+    --sheen: rgba(0, 0, 0, 0.022);
+    --shadow: rgba(0, 0, 0, 0.14);
+    --green-soft-bg: rgba(23, 128, 61, 0.10);
+    --green-soft-border: rgba(23, 128, 61, 0.32);
+    --red-soft-bg: rgba(198, 40, 40, 0.08);
+    --red-soft-bg-hover: rgba(198, 40, 40, 0.14);
+    --red-soft-border: rgba(198, 40, 40, 0.32);
+}
+
+body.theme-red {
+    --bg: #080000;
+    --bg-soft: #120404;
+    --card: #170707;
+    --card-hover: #210909;
+    --border: #3b1515;
+    --text: #ffeded;
+    --muted: #a87878;
+    --accent: #ff3030;
+    --accent-soft: #ff7777;
+
+    --topbar-bg: rgba(8, 0, 0, 0.96);
+    --border-strong: #5a2020;
+    --track: #351010;
+    --line: #4a1a1a;
+    --node-unlocked: #240a0a;
+    --sheen: rgba(255, 120, 120, 0.04);
+}
+
+body.theme-red .primary-button {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+body.theme-red .skill-node.unlocked {
+    border-color: var(--accent);
+}

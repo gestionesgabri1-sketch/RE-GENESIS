@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RE:GENESIS</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=MedievalSharp&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/views.css">
+<link rel="stylesheet" href="css/responsive.css">
+
+<script defer src="js/data/core-data.js"></script>
+<script defer src="js/data/map-data.js"></script>
+<script defer src="js/data/skills-data.js"></script>
+<script defer src="js/data/ranks.js"></script>
+<script defer src="js/data/translations.js"></script>
+<script defer src="js/core/date.js"></script>
+<script defer src="js/core/state.js"></script>
+<script defer src="js/core/storage.js"></script>
+<script defer src="js/core/xp.js"></script>
+<script defer src="js/core/ui.js"></script>
+<script defer src="js/views/missions.js"></script>
+<script defer src="js/views/timers.js"></script>
+<script defer src="js/views/habits.js"></script>
+<script defer src="js/views/map.js"></script>
+<script defer src="js/views/calendar.js"></script>
+<script defer src="js/views/profile.js"></script>
+<script defer src="js/views/onboarding.js"></script>
+<script defer src="js/init.js"></script>
+</head>
+
+<body>
+
+<!-- =========================
+     TOP BAR
+========================= -->
+
+<header class="topbar">
+
+    <div class="top-left">
+
+        <button class="menu-button" onclick="toggleSettingsMenu()" aria-label="Menu">
+            ☰
+        </button>
+
+        <button class="player-button" id="topPlayerName" type="button" aria-label="Abrir perfil de usuario" title="Abrir perfil" onclick="openProfile(true)">
+            PLAYER
+        </button>
+
+    </div>
+
+    <div class="player-area">
+
+        <div class="level-circle" id="levelCircle" style="--progress: 0deg;" role="button" tabindex="0" aria-label="Abrir árbol de habilidades" title="Abrir árbol de habilidades" onclick="openProfile(false)" onkeydown="if(event.key === 'Enter' || event.key === ' '){event.preventDefault();openProfile(false);}">
+            <div class="level-circle-content">
+                <div class="level-number" id="topLevel">1</div>
+                <div class="level-label">LVL</div>
+            </div>
+        </div>
+
+    </div>
+
+</header>
+
+<!-- =========================
+     SETTINGS MENU
+========================= -->
+
+<div class="settings-menu hidden" id="settingsMenu">
+
+    <div class="settings-section">
+
+        <div class="settings-title" data-i18n="user">Usuario</div>
+
+        <div class="settings-row">
+            <div>
+                <div class="settings-name" id="menuCurrentName">PLAYER</div>
+                <div class="settings-description" data-i18n="changeName">
+                    Cambiar nombre
+                </div>
+            </div>
+        </div>
+
+        <div class="name-editor">
+            <input
+                type="text"
+                id="nameInput"
+                maxlength="20"
+                placeholder="Nombre"
+            >
+            <button class="small-button" onclick="saveUsername()" data-i18n="save">
+                GUARDAR
+            </button>
+        </div>
+
+    </div>
+
+    <div class="settings-section">
+
+        <div class="settings-title" data-i18n="language">
+            Idioma
+        </div>
+
+        <div class="settings-row">
+
+            <div class="language-switch">
+                <button
+                    class="language-option active"
+                    id="langES"
+                    onclick="setLanguage('es')"
+                >
+                    ESP
+                </button>
+
+                <button
+                    class="language-option"
+                    id="langEN"
+                    onclick="setLanguage('en')"
+                >
+                    ENG
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="settings-section">
+
+        <div class="settings-title" data-i18n="theme">
+            Tema
+        </div>
+
+        <div class="theme-options">
+
+            <button
+                class="theme-option active"
+                id="themeWhiteOption"
+                onclick="setTheme('white')"
+                data-i18n="blackOnWhite"
+            >
+                Negro sobre blanco
+            </button>
+
+            <button
+                class="theme-option"
+                id="themeBlackOption"
+                onclick="setTheme('black')"
+                data-i18n="whiteOnBlack"
+            >
+                Blanco sobre negro
+            </button>
+
+            <button
+                class="theme-option"
+                id="themeRedOption"
+                onclick="setTheme('red')"
+                data-i18n="redOnBlack"
+            >
+                Rojo sobre negro
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="settings-section">
+
+        <div class="settings-title" data-i18n="prefsTitle">
+            Preferencias de uso
+        </div>
+
+        <div class="settings-description" style="margin-bottom:10px;" data-i18n="prefsDescription">
+            Cambia tus áreas, metas y ritmo para adaptar las misiones diarias.
+        </div>
+
+        <button class="small-button" style="width:100%;" onclick="openOnboarding(true)" data-i18n="prefsEdit">
+            EDITAR PREFERENCIAS
+        </button>
+
+    </div>
+
+    <div class="settings-section reset-section">
+
+        <div class="settings-title" data-i18n="resetTitle">
+            Reiniciar progreso
+        </div>
+
+        <div class="settings-description" style="margin-bottom:10px;" data-i18n="resetDescription">
+            Borra todo: XP, misiones, hábitos, eventos, lugares y zonas del mapa, nombre y preferencias.
+        </div>
+
+        <button class="reset-button" onclick="resetProgress()" data-i18n="reset">
+            REINICIAR
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     NAV
+========================= -->
+
+<nav class="nav">
+
+    <button
+        class="nav-button active"
+        id="navMissions"
+        onclick="showView('missions')"
+        data-i18n="missions"
+    >
+        MISIONES
+    </button>
+
+    <button
+        class="nav-button"
+        id="navHabits"
+        onclick="showView('habits')"
+        data-i18n="habits"
+    >
+        HÁBITOS
+    </button>
+
+    <button
+        class="nav-button"
+        id="navMap"
+        onclick="showView('map')"
+        data-i18n="map"
+    >
+        MAPA
+    </button>
+
+    <button
+        class="nav-button"
+        id="navCalendar"
+        onclick="showView('calendar')"
+        data-i18n="calendar"
+    >
+        CALENDARIO
+    </button>
+
+</nav>
+
+<main>
+
+<!-- =========================
+     MISSIONS
+========================= -->
+
+<section class="view" id="missionsView">
+
+    <div class="page-header">
+        <h1 class="page-title" data-i18n="missionsTitle">
+            Misiones
+        </h1>
+
+        <div class="page-subtitle" data-i18n="missionsSubtitle">
+            Completa acciones reales para hacer progresar a tu personaje.
+        </div>
+    </div>
+
+    <div class="rank-preview" id="dailyOddsInfo" style="margin: 0 0 12px;"></div>
+
+    <div id="ascensionBanner"></div>
+
+    <div class="mission-list" id="missionList"></div>
+
+    <div class="card creator">
+
+        <div class="settings-title" data-i18n="newMission">
+            Nueva misión
+        </div>
+
+        <div class="form-grid rank-form">
+
+            <input
+                id="missionName"
+                class="f-name"
+                type="text"
+                placeholder="Nombre de la misión"
+                data-i18n-placeholder="missionNamePlaceholder"
+            >
+
+            <select id="missionStat" class="f-stat"></select>
+
+            <select id="missionKind" class="f-kind" onchange="updateRankPreview()">
+                <option value="normal" data-i18n="kindNormal">Normal</option>
+                <option value="count" data-i18n="kindCount">Conteo / objetivo</option>
+            </select>
+
+            <input
+                id="missionMinutes"
+                class="f-minutes"
+                type="number"
+                min="1"
+                max="240"
+                placeholder="Minutos (opcional)"
+                data-i18n-placeholder="minutesPlaceholder"
+                oninput="updateRankPreview()"
+            >
+
+            <select id="missionEffort" class="f-effort" onchange="updateRankPreview()">
+                <option value="1" data-i18n="effort1">1 · Muy fácil</option>
+                <option value="2" data-i18n="effort2">2 · Fácil</option>
+                <option value="3" data-i18n="effort3" selected>3 · Media</option>
+                <option value="4" data-i18n="effort4">4 · Difícil</option>
+                <option value="5" data-i18n="effort5">5 · Muy difícil</option>
+            </select>
+
+            <input
+                id="missionTarget"
+                class="f-target"
+                type="number"
+                min="1"
+                step="any"
+                placeholder="Objetivo (ej. 30)"
+                data-i18n-placeholder="targetPlaceholder"
+                oninput="updateRankPreview()"
+                style="display:none"
+            >
+
+            <input
+                id="missionUnit"
+                class="f-unit"
+                type="text"
+                maxlength="20"
+                placeholder="Unidad (ej. headshots)"
+                data-i18n-placeholder="unitPlaceholder"
+                style="display:none"
+            >
+
+            <button class="primary-button f-add" onclick="createMission()" data-i18n="add">
+                AÑADIR
+            </button>
+
+        </div>
+
+        <div class="rank-preview" id="missionRankPreview"></div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     HABITS
+========================= -->
+
+<section class="view hidden" id="habitsView">
+
+    <div class="page-header">
+
+        <h1 class="page-title" data-i18n="habitsTitle">
+            Hábitos
+        </h1>
+
+        <div class="page-subtitle" data-i18n="habitsSubtitle">
+            Mantén acciones repetidas y conviértelas en progreso.
+        </div>
+
+    </div>
+
+    <div class="habit-list" id="habitList"></div>
+
+    <div class="card creator">
+
+        <div class="settings-title" data-i18n="newHabit">
+            Nuevo hábito
+        </div>
+
+        <div class="form-grid rank-form">
+
+            <input
+                id="habitName"
+                class="f-name"
+                type="text"
+                placeholder="Nombre del hábito"
+                data-i18n-placeholder="habitNamePlaceholder"
+            >
+
+            <select id="habitFrequency" class="f-freq" onchange="updateRankPreview()">
+                <option value="daily" data-i18n="daily">
+                    Diario
+                </option>
+
+                <option value="weekly" data-i18n="weekly">
+                    Semanal
+                </option>
+            </select>
+
+            <input
+                id="habitMinutes"
+                class="f-minutes"
+                type="number"
+                min="1"
+                max="240"
+                placeholder="Minutos (opcional)"
+                data-i18n-placeholder="minutesPlaceholder"
+                oninput="updateRankPreview()"
+            >
+
+            <select id="habitEffort" class="f-effort" onchange="updateRankPreview()">
+                <option value="1" data-i18n="effort1">1 · Muy fácil</option>
+                <option value="2" data-i18n="effort2">2 · Fácil</option>
+                <option value="3" data-i18n="effort3" selected>3 · Media</option>
+                <option value="4" data-i18n="effort4">4 · Difícil</option>
+                <option value="5" data-i18n="effort5">5 · Muy difícil</option>
+            </select>
+
+            <button class="primary-button f-add" onclick="createHabit()" data-i18n="add">
+                AÑADIR
+            </button>
+
+        </div>
+
+        <div class="rank-preview" id="habitRankPreview"></div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     MAP
+========================= -->
+
+<section class="view hidden" id="mapView">
+
+    <div class="page-header">
+
+        <h1 class="page-title" data-i18n="mapTitle">
+            Mapa
+        </h1>
+
+        <div class="page-subtitle" data-i18n="mapSubtitle">
+            Marca tus lugares y rutas de entrenamiento.
+        </div>
+
+    </div>
+
+    <div class="map-toolbar">
+
+        <button class="small-button map-tool" id="mapBtnPlace" type="button" onclick="setMapMode('place')">
+            <span aria-hidden="true">📍</span>
+            <span data-i18n="mapAddPlace">Añadir lugar</span>
+        </button>
+
+        <button class="small-button map-tool" id="mapBtnRoute" type="button" onclick="setMapMode('route')">
+            <span aria-hidden="true">〰️</span>
+            <span data-i18n="mapNewRoute">Nueva ruta</span>
+        </button>
+
+        <button class="small-button map-tool" id="mapBtnLocate" type="button" onclick="locateMe()" aria-pressed="false">
+            <span aria-hidden="true" id="mapLocateIcon">🎯</span>
+            <span id="mapLocateText">Mi ubicación</span>
+        </button>
+
+        <button class="small-button map-tool" id="mapBtnSource" type="button" onclick="toggleMapSource()" aria-expanded="false">
+            <span aria-hidden="true">⚙️</span>
+            <span data-i18n="mapSourceButton">Fuente</span>
+        </button>
+
+    </div>
+
+    <div id="mapSourcePanel"></div>
+
+    <div class="map-frame" id="mapFrame" tabindex="0" role="application">
+
+        <div class="map-tiles" id="mapTiles"></div>
+
+        <svg class="map-svg" id="mapSvg" aria-hidden="true"></svg>
+
+        <canvas class="map-fog" id="mapFog"></canvas>
+
+        <div class="map-markers" id="mapMarkers"></div>
+
+        <div class="map-offline hidden" id="mapOffline"></div>
+
+        <div class="map-hint hidden" id="mapHint"></div>
+
+        <div class="map-controls map-control">
+            <button class="map-zoom" id="mapZoomIn" type="button" onclick="zoomMapButton(1)">+</button>
+            <button class="map-zoom" id="mapZoomOut" type="button" onclick="zoomMapButton(-1)">−</button>
+        </div>
+
+        <div class="map-message hidden" id="mapMessage" role="status"></div>
+
+        <div class="map-live hidden" id="mapLive" role="status"></div>
+
+        <div class="map-banner hidden" id="mapBanner" role="status" aria-live="polite"></div>
+
+        <div class="map-attribution map-control" id="mapAttribution"></div>
+
+    </div>
+
+    <div id="mapPanel"></div>
+
+    <div id="mapList"></div>
+
+</section>
+
+<!-- =========================
+     CALENDAR
+========================= -->
+
+<section class="view hidden" id="calendarView">
+
+    <div class="page-header">
+
+        <h1 class="page-title" data-i18n="calendarTitle">
+            Calendario
+        </h1>
+
+        <div class="page-subtitle" data-i18n="calendarSubtitle">
+            Organiza eventos y observa tus días.
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="calendar-header">
+
+            <button class="calendar-control" onclick="changeMonth(-1)">
+                ‹
+            </button>
+
+            <div class="calendar-month" id="calendarMonth">
+                -
+            </div>
+
+            <button class="calendar-control" onclick="changeMonth(1)">
+                ›
+            </button>
+
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+
+    </div>
+
+    <div class="card creator" id="eventCreator">
+
+        <div class="settings-title" data-i18n="newEvent">
+            Nuevo evento
+        </div>
+
+        <div class="form-grid">
+
+            <input
+                id="eventName"
+                type="text"
+                placeholder="Nombre del evento"
+                data-i18n-placeholder="eventNamePlaceholder"
+            >
+
+            <input id="eventDate" type="date">
+
+            <input id="eventTime" type="time">
+
+            <button class="primary-button" onclick="addCalendarEvent()" data-i18n="add">
+                AÑADIR
+            </button>
+
+        </div>
+
+        <div id="eventList"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PROFILE
+========================= -->
+
+<section class="view hidden" id="profileView">
+
+    <div class="profile-header">
+
+        <div>
+            <h1 class="profile-name" id="profileName">
+                PLAYER
+            </h1>
+
+            <div class="profile-race" id="profileRace"></div>
+
+            <div class="profile-level">
+                <span data-i18n="level">Nivel</span>
+                <span id="profileLevel">1</span>
+            </div>
+        </div>
+
+        <div class="profile-xp">
+
+            <div class="profile-xp-number">
+                <span id="profileXP">0</span> XP
+            </div>
+
+            <div class="profile-xp-label" data-i18n="currentLevelXP">
+                XP del nivel actual
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="profileContent"></div>
+
+</section>
+
+<!-- =========================
+     STAT VIEW
+========================= -->
+
+<section class="view hidden" id="statView">
+
+    <div class="subpage-header">
+
+        <button class="back-button" onclick="openProfile()" data-i18n="back">
+            ← VOLVER
+        </button>
+
+        <div id="statViewTitle" class="skill-tree-title">
+            -
+        </div>
+
+    </div>
+
+    <div id="skillTreeContainer"></div>
+
+</section>
+
+</main>
+
+<!-- =========================
+     ONBOARDING
+========================= -->
+
+<div class="onboarding hidden" id="onboardingOverlay" role="dialog" aria-modal="true" aria-labelledby="onbTitle">
+    <div class="onb-shell" id="onboardingContent"></div>
+</div>
+
+<div class="app-reveal-curtain hidden" id="appRevealCurtain" aria-hidden="true"></div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 760px) {
+    .topbar {
+        padding: 0 16px;
+        height: 72px;
+    }
+
+    .settings-menu {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        top: 66px;
+    }
+
+    main {
+        width: min(100% - 22px, 1100px);
+        padding-top: 20px;
+    }
+
+    .nav {
+        padding-top: 14px;
+        overflow-x: auto;
+        justify-content: flex-start;
+    }
+
+    .nav-button {
+        white-space: nowrap;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calendar-day {
+        min-height: 58px;
+    }
+
+    .skill-tree {
+        height: 470px;
+    }
+
+    .skill-node {
+        width: 88px;
+    }
+
+    .mission-card,
+    .habit-card {
+        align-items: flex-start;
+    }
+
+    .mission-actions {
+        flex-direction: column;
+    }
+}
